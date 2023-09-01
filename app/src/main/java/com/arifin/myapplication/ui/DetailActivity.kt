@@ -50,8 +50,9 @@ class DetailActivity : AppCompatActivity() {
 
                     val user = response.body()
 
-                    binding.namaLogin.text = user?.login
-                    binding.company.text = user?.company ?: getString(R.string.default_company)
+                    binding.name.text = user?.name
+                    binding.username.text = user?.login
+                    binding.bio.text = user?.bio as CharSequence?
 
                     val totalFollowers = user?.followers ?: 0
                     val totalFollowing = user?.following ?: 0
