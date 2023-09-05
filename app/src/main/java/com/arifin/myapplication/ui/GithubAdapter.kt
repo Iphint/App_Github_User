@@ -41,7 +41,6 @@ class GithubAdapter(private var userList: List<ItemsItem>) :
             .error(R.drawable.baseline_error_24)
             .into(holder.imageView)
     }
-
     override fun getItemCount(): Int {
         return userList.size
     }

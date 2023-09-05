@@ -11,4 +11,6 @@
     <string name="default_company">User tidak memiliki company</string>
     <string name="no_following">No following users found.</string>
     <string name="no_followers">No followers users found.</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="user_favourite_not_found">User favourite not found</string>
 </resources>

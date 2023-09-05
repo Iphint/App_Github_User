@@ -42,7 +42,6 @@ class FollowersAdapter : RecyclerView.Adapter<FollowersAdapter.ViewHolder>() {
         fun bind(follower: ResponseFollowersItem) {
             followerUsername.text = follower.login
 
-            // Load follower avatar using Glide or other image loading library
             Glide.with(itemView.context)
                 .load(follower.avatarUrl)
                 .placeholder(R.drawable.baseline_error_24)

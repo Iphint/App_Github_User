@@ -7,12 +7,17 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arifin.myapplication.data.response.GithubResponse
 import com.arifin.myapplication.data.response.ItemsItem
 import com.arifin.myapplication.data.retrofit.ApiConfig
 import com.arifin.myapplication.databinding.ActivityMainBinding
+import com.arifin.myapplication.model.SettingPreferences
+import com.arifin.myapplication.model.dataStore
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,12 +26,36 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: GithubAdapter
+    private lateinit var settingsManager: SettingPreferences
     private val userList = mutableListOf<ItemsItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.favourite.setOnClickListener {
+            val intent = Intent(this, FavouriteActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        binding.setting.setOnClickListener {
+            val intent = Intent(this, DarkModeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        settingsManager = SettingPreferences.getInstance(applicationContext.dataStore)
+        lifecycleScope.launch {
+            settingsManager.getThemeSetting().collect { isDarkModeActive: Boolean ->
+                if (isDarkModeActive) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+            }
+        }
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
